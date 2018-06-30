@@ -1,0 +1,26 @@
+{
+  "name": "barkentine",
+  "homepage": "https://github.com/aks8m/barkentine",
+  "authors": [
+    "Andrew K Sills <andrew.k.sills@gmail.com>"
+  ],
+  "description": "A single page application dedicated to data analysis",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^4.1.1",
+    "jquery": "^3.3.1",
+    "popper.js": "^1.14.3",
+    "vue": "^2.5.16",
+    "papaparse": "^4.5.0",
+    "axios": "^0.18.0"
+  }
+}
