@@ -103,6 +103,7 @@
                                 <div class="col-md-12">
                                     <div class="text-right">
                                         <button type=" button " class="btn btn-primary" v-on:click="parseCSV" v-bind:disabled="isParseBtnDisabled">Parse</button>
+                                        <button type=" button " class="btn btn-primary" v-on:click="uploadParsedData" v-bind:disabled="isUploadBtnDisabled">Upload</button>
                                         <button type="button " class="btn btn-secondary" v-on:click="clearUpload">Clear</button>
                                     </div>
                                 </div>
@@ -137,6 +138,7 @@
     <!-- Optional JavaScript -->
     <script src="js/app.js "></script>
     <script src="bower_components/papaparse/papaparse.js "></script>
+    <script src="bower_components/axios/dist/axios.js"></script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="bower_components/jquery/dist/jquery.min.js "></script>
     <script src="bower_components/popper.js/dist/popper.min.js " type="module "></script>

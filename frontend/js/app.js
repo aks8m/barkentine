@@ -15,7 +15,8 @@ var app = new Vue({
         chunkPercentage: '',
         loadProgressStyleValue: 'width:0%',
         chunkCounter: 0,
-        isParseBtnDisabled: false
+        isParseBtnDisabled: false,
+        isUploadBtnDisabled: true,
     },
     // define methods under the `methods` object
     methods: {
@@ -52,11 +53,13 @@ var app = new Vue({
                         vm.chunkCounter += 1;
                         vm.loadProgressStyleValue = 'width:' +
                             vm.chunkCounter * vm.chunkPercentage * 100 + '%';
+                        vm.parsedData = vm.parsedData.concat(results.data);
                     },
                     complete: function (results, file) {
                         vm.showUploadProgressBar = false;
                         vm.loadProgressStyleValue = 'width:0%';
                         vm.isParseBtnDisabled = true;
+                        vm.isUploadBtnDisabled = false;
                     }
                 });
             }
@@ -77,6 +80,23 @@ var app = new Vue({
             vm.loadProgressStyleValue = 'width:0%';
             vm.chunkCounter = 0;
             vm.isParseBtnDisabled = false;
+            vm.isUploadBtnDisabled = true;
+        },
+        uploadParsedData: function () {
+            var vm = this;
+
+            vm.showUploadProgressBar = true;
+            vm.loadProgressStyleValue = 'width:100%';
+
+            axios.post('http://localhost:8080/barkentine/upload', {
+                    personaName: vm.personaName,
+                    parsedData: vm.parsedData
+                })
+                .then(function (response) {
+                    vm.showUploadProgressBar = false;
+                    vm.clearUpload();
+                })
+                .catch(function (error) {});
         }
     }
 });

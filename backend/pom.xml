@@ -5,11 +5,11 @@
 
 	<groupId>com.github.aks8m</groupId>
 	<artifactId>barkentine</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<packaging>jar</packaging>
 
 	<name>barkentine</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Leveraging egocentric networks of data to produce diagrams for BI insights.</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -43,6 +43,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.neo4j.driver</groupId>
+			<artifactId>neo4j-java-driver</artifactId>
+			<version>1.6.1</version>
 		</dependency>
 	</dependencies>
 
