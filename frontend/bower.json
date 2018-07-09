@@ -21,6 +21,8 @@
     "popper.js": "^1.14.3",
     "vue": "^2.5.16",
     "papaparse": "^4.5.0",
-    "axios": "^0.18.0"
+    "axios": "^0.18.0",
+    "d3-sankey": "git://github.com/d3/d3-sankey.git#^0.7.1",
+    "d3": "^5.5.0"
   }
 }

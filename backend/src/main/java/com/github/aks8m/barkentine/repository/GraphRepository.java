@@ -1,7 +1,10 @@
 package com.github.aks8m.barkentine.repository;
 
+import com.github.aks8m.barkentine.service.GraphLoadException;
 import org.neo4j.driver.v1.*;
 import org.neo4j.driver.v1.exceptions.ServiceUnavailableException;
+
+import java.util.concurrent.ExecutionException;
 
 public class GraphRepository {
 
@@ -15,20 +18,30 @@ public class GraphRepository {
         return neo4jDriver;
     }
 
-    public boolean writeTransaction(String cypherQuery){
+    public void writeTransaction(String cypherQuery){
         try ( Session session = neo4jDriver.session() )
         {
-            return session.writeTransaction(transaction -> {
-
-                transaction.run( cypherQuery );
-                return true;
-
-            });
+            session.writeTransaction(transaction -> transaction.run(cypherQuery));
         }
-        catch ( ServiceUnavailableException ex ) {
-            return false;
+        catch (ServiceUnavailableException suE ) {
+            throw new GraphLoadException(suE.getMessage());
+        }catch (Exception e){
+            throw new GraphLoadException(e.getMessage());
         }
+    }
 
+    public StatementResult readTransaction(String cypherQuery){
+        StatementResult statementResult = null;
+        try ( Session session = neo4jDriver.session() )
+        {
+            statementResult = session.run(cypherQuery);
+        }
+        catch (ServiceUnavailableException suE ) {
+            suE.printStackTrace();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return statementResult;
     }
 
     public void close(){

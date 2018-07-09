@@ -48,9 +48,9 @@
 
             <div class="row pt-md-3">
                 <div class="col-md-6">
-                    <div class="card">
+                    <div class="card h-100">
                         <div class="card-body">
-                            <h5 class="card-title">Upload Data</h5>
+                            <h5 class="card-title">Data</h5>
 
                             <div class="row">
                                 <div class="col-md-12">
@@ -59,8 +59,8 @@
                                             <span class="input-group-text">Upload</span>
                                         </div>
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="inputGroupFile04" accept=".csv" v-on:change="onFileChange">
-                                            <label class="custom-file-label" for="inputGroupFile04">{{uploadFileLabel}}</label>
+                                            <input type="file" class="custom-file-input " id="inputGroupFile04" accept=".csv" v-on:change="onFileChange">
+                                            <label class="custom-file-label text-truncate" for="inputGroupFile04">{{uploadFileLabel}}</label>
                                         </div>
                                     </div>
                                 </div>
@@ -75,6 +75,9 @@
                                         <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" v-model="personaName">
                                     </div>
                                     <ul class="list-group list-group-flush">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center" v-bind:class=" { 'list-group-item-secondary': statusBlank, 'list-group-item-primary': statusInProgress, 'list-group-item-success': statusSuccess, 'list-group-item-danger':statusError} ">
+                                            Status
+                                        </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             Column Count
                                             <span class="badge badge-primary badge-pill">{{columnCount}}</span>
@@ -94,7 +97,7 @@
                             <div class="row pt-md-2">
                                 <div class="col-md-12">
                                     <div class="progress" v-show="showUploadProgressBar">
-                                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" :style="loadProgressStyleValue"></div>
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100" :style="loadProgressStyleValue"></div>
                                     </div>
                                 </div>
                             </div>
@@ -102,31 +105,79 @@
                             <div class="row pt-md-2">
                                 <div class="col-md-12">
                                     <div class="text-right">
-                                        <button type=" button " class="btn btn-primary" v-on:click="parseCSV" v-bind:disabled="isParseBtnDisabled">Parse</button>
-                                        <button type=" button " class="btn btn-primary" v-on:click="uploadParsedData" v-bind:disabled="isUploadBtnDisabled">Upload</button>
-                                        <button type="button " class="btn btn-secondary" v-on:click="clearUpload">Clear</button>
+                                        <button type=" button " class="btn btn-primary" v-on:click="parse" v-bind:disabled="isParseBtnDisabled">Parse</button>
+                                        <button type=" button " class="btn btn-primary" v-on:click="upload" v-bind:disabled="isUploadBtnDisabled">Upload</button>
+                                        <button type="button " class="btn btn-secondary" v-on:click="clear">Clear</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="col-md-6">
-                    <div class="col-md-12 ">
-                        <div class="card ">
-                            <div class="card-body ">
-                                <h5 class="card-title ">Explore</h5>
+                    <div class="card h-100 ">
+                        <div class="card-body ">
+                            <h5 class="card-title ">Graph DB Stats</h5>
+                            <div class="row pt-md-2">
+                                <div class="col-md-12">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Last Refreshed Time
+                                            <span class="badge badge-primary badge-pill">{{lastRefreshTime}}</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Persona Count
+                                            <span class="badge badge-primary badge-pill">{{personaCount}}</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Ego Count
+                                            <span class="badge badge-primary badge-pill">{{egoCount}}</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Alter Count
+                                            <span class="badge badge-primary badge-pill">{{alterCount}}</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Relationship Count
+                                            <span class="badge badge-primary badge-pill">{{relCount}}</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Shared Alter Count
+                                            <span class="badge badge-primary badge-pill">{{sharedAlterCount}}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="row pt-md-2">
+                                <div class="col-md-12">
+                                    <div class="text-right">
+                                        <button type=" button " class="btn btn-primary" v-on:click="exploreRefresh">Refresh</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="row pt-md-3">
+            <div class="row pt-md-3 pb-md-3">
                 <div class="col-md-12 ">
                     <div class="card ">
                         <div class="card-body ">
-                            <h5 class="card-title ">Analyze</h5>
+                            <h5 class="card-title ">Sankey Diagram</h5>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="text-right">
+                                        <button type=" button " class="btn btn-primary" v-on:click="generateSankey">Generate Sankey</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div id="diagram" class="col-md-12">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -139,6 +190,8 @@
     <script src="js/app.js "></script>
     <script src="bower_components/papaparse/papaparse.js "></script>
     <script src="bower_components/axios/dist/axios.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="js/sankey.js"></script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="bower_components/jquery/dist/jquery.min.js "></script>
     <script src="bower_components/popper.js/dist/popper.min.js " type="module "></script>
